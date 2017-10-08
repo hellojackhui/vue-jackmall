@@ -61,9 +61,9 @@
 <script>
   import './../assets/css/base.css'
   import './../assets/css/product.css'
-  import NavHeader from './NavHeader.vue'
-  import NavFooter from './NavFooter.vue'
-  import NavBread from './NavBread.vue'
+  import NavHeader from '../components/NavHeader.vue'
+  import NavFooter from '../components/NavFooter.vue'
+  import NavBread from '../components/NavBread.vue'
   import axios from 'axios'
 
   export default{
@@ -164,16 +164,20 @@
         }, 500);
       },
       addCart(productId){
-          axios.post("/goods/addCart",{
+        axios.post("/goods/addCart",{
             productId:productId
-          }).then((res)=>{
-            if(res.status==0){
-                alert("加入成功");
-            }else{
-                alert("msg:"+res.msg);
-            }
+              }).then((res)=>{
+              var res = res.data;
+                 if(res.status == 0){
+                   alert('加入成功');
+            //      this.mdShowCart = true;
+            //      this.$store.commit("updateCartCount",1);
+                 }else{
+                   alert("msg:"+res.msg);
+            //        this.mdShow = true;
+                 }
           });
-      }
+      },
     }
   }
 </script>
