@@ -17,7 +17,7 @@
           <!--<a href="/" class="navbar-link">我的账户</a>-->
           <span class="navbar-link" v-text="nickName" v-if="nickName"></span>
           <a href="javascript:void(0)" class="navbar-link" @click="loginModalFlag=true" v-if="!nickName">Login</a>
-          <a href="javascript:void(0)" class="navbar-link" @click="loginModalFlag=true" v-if="nickName">Log Out</a>
+          <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-if="nickName">Log Out</a>
           <div class="navbar-cart-container">
             <span class="navbar-cart-count"></span>
             <a class="navbar-link navbar-cart-link" href="/#/cart">
@@ -148,7 +148,18 @@
               nickName:''
           }
       },
+    mounted(){
+      this.checkLogin();
+    },
     methods:{
+        checkLogin(){
+          axios.get("/users/checkLogin").then((response)=>{
+              let res = response.data;
+              if(res.status == '0'){
+                  this.nickName = res.result
+              }
+          });
+        },
           login(){
               console.log("userName:"+this.userName);
               if(!this.userName || !this.userPwd){
@@ -167,8 +178,16 @@
                 }else{
                     this.errorTip = true;
                 }
-            })
+            });
+          },
+      logOut(){
+        axios.post("/users/logout").then((response)=> {
+          let res=response.data;
+          if(res.status=="0"){
+              this.nickName='';
           }
+        })
+      }
     }
   }
 </script>
