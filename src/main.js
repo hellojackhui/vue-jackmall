@@ -3,13 +3,22 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Vuex from 'vuex'
 import VueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import {currency} from './util/currency'
 Vue.config.productionTip = false;
 
+Vue.use(Vuex);
 Vue.use(infiniteScroll);
 Vue.filter("currency",currency);
+
+const store = new Vuex.Store({
+  state:{
+    nickName:'',
+    cartCount:0
+  }
+});
 
 Vue.use(VueLazyLoad,{
   loading:"../static/loading-svg/loading-bars.svg"
@@ -20,4 +29,4 @@ new Vue({
   router,
   template: '<App/>',
   components: { App }
-})
+});
